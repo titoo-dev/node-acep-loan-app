@@ -2,7 +2,7 @@ import database from "../databases/database.js"
 import helper from "../helpers/helper.js"
 import uniqid from 'uniqid'
 
-class UserService {
+class AdminService {
     constructor() {
         this.getAll = this.getAll.bind(this)
         this.getOnce = this.getOnce.bind(this)
@@ -14,7 +14,7 @@ class UserService {
     async getAll(page=1) {
         const offset = helper.getOffset(page, 10)
         const rows = await database.query(
-            `SELECT * FROM user LIMIT ?,?`, 
+            `SELECT * FROM admin LIMIT ?,?`, 
             [offset, 10]
         )
 
@@ -26,7 +26,7 @@ class UserService {
 
     async getOnce(id) {
         const row = await database.query(
-            `SELECT * FROM user WHERE CODE_USER=?`,
+            `SELECT * FROM admin WHERE CODE_ADMIN=?`,
             [id]
         )
 
@@ -38,21 +38,21 @@ class UserService {
         const id = uniqid()
         const { email, password } = payload
         const row = await database.query(
-            `INSERT INTO USER
-                (CODE_USER, EMAIL, MOT_DE_PASSE)
+            `INSERT INTO ADMIN
+                (CODE_ADMIN, EMAIL, MOT_DE_PASSE)
                 VALUES
                 (?, ?, ?)`,
                 [id, email, password]
         )
         const data = helper.emptyOrRows(row)
-        const message = "user added successfully !"
+        const message = "admin added successfully !"
         return { data, message }
     }
 
     async update(id, payload) {
         const { password } = payload
         const row = await database.query(`
-            UPDATE user SET MOT_DE_PASSE=? WHERE CODE_USER=?
+            UPDATE admin SET MOT_DE_PASSE=? WHERE CODE_ADMIN=?
         `,[password, id])
         const data = helper.emptyOrRows(row)
         const message = "user updated successfully !"
@@ -61,13 +61,13 @@ class UserService {
 
     async delete(id) {
         const row = await database.query(`
-            DELETE FROM user WHERE CODE_USER=?
+            DELETE FROM admin WHERE CODE_ADMIN=?
         `, [id])
 
         const data = helper.emptyOrRows(row)
-        const message = "user deleted successfully !"
+        const message = "admin deleted successfully !"
         return { data, message }
     }
 }
 
-export default new UserService()
+export default new AdminService()
