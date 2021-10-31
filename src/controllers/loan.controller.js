@@ -4,15 +4,24 @@ import loanService from "../services/loan.service.js"
 class LoanRouterController {
     constructor() {
         this.getAll = this.getAll.bind(this)
+        this.getAllByUserId = this.getAllByUserId.bind(this)
         this.getOnce = this.getOnce.bind(this)
         this.add = this.add.bind(this)
-        this.update = this.update.bind(this)
-        this.delete = this.delete.bind(this)
     }
 
     async getAll(req, res, next) {
         try {
             res.json(await loanService.getAll(req.query.page))
+        } catch (error) {
+            console.error(`Error while getting loan`, error.message);
+            next(error)   
+        }
+    }
+
+    async getAllByUserId(req, res, next) {
+        const id = req.params.id
+        try {
+            res.json(await loanService.getAllByUserId(id, req.query.page))
         } catch (error) {
             console.error(`Error while getting loan`, error.message);
             next(error)   
