@@ -36,13 +36,13 @@ class UserService {
 
     async add(payload) {
         const id = uniqid()
-        const { email, password } = payload
+        const { lastName, firstName, email, password } = payload
         const row = await database.query(
             `INSERT INTO USER
-                (CODE_USER, EMAIL, MOT_DE_PASSE)
+                (CODE_USER, NOM, PRENOM, EMAIL, MOT_DE_PASSE)
                 VALUES
-                (?, ?, ?)`,
-                [id, email, password]
+                (?, ?, ?, ?, ?)`,
+                [id, lastName, firstName, email, password]
         )
         const data = helper.emptyOrRows(row)
         const message = "user added successfully !"
