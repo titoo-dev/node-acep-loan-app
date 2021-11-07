@@ -4,7 +4,7 @@ import loanService from "../services/loan.service.js"
 class LoanRouterController {
     constructor() {
         this.getAll = this.getAll.bind(this)
-        this.getAllByUserId = this.getAllByUserId.bind(this)
+        this.getById = this.getById.bind(this)
         this.getOnce = this.getOnce.bind(this)
         this.add = this.add.bind(this)
     }
@@ -18,7 +18,7 @@ class LoanRouterController {
         }
     }
 
-    async getAllByUserId(req, res, next) {
+    async getById(req, res, next) {
         const id = req.params.id
         try {
             res.json(await loanService.getAllByUserId(id, req.query.page))

@@ -1,6 +1,8 @@
 import database from "../databases/database.js"
 import helper from "../helpers/helper.js"
 import uniqid from 'uniqid'
+import bcrypt from 'bcryptjs'
+
 
 class UserService {
     constructor() {
@@ -37,6 +39,7 @@ class UserService {
     async add(payload) {
         const id = uniqid()
         const { lastName, firstName, email, password } = payload
+        // const encryptedPassword = bcrypt.hash(password, '')
         const row = await database.query(
             `INSERT INTO USER
                 (CODE_USER, NOM, PRENOM, EMAIL, MOT_DE_PASSE)

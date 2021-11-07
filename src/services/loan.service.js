@@ -5,7 +5,7 @@ import uniqid from 'uniqid'
 class LoanService {
     constructor() {
         this.getAll = this.getAll.bind(this)
-        this.getAllByUserId = this.getAllByUserId.bind(this)
+        this.getById = this.getById.bind(this)
         this.getOnce = this.getOnce.bind(this)
         this.add = this.add.bind(this)
     }
@@ -23,7 +23,7 @@ class LoanService {
         return { data, meta }
     }
 
-    async getAllByUserId(id, page=1) {
+    async getById(id, page=1) {
         const offset = helper.getOffset(page, 10)
         const rows = await database.query(
             `SELECT * FROM loan WHERE CODE_USER=? LIMIT ?,?`, 
