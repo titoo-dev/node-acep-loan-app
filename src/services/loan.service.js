@@ -48,16 +48,31 @@ class LoanService {
 
     async add(payload) {
         const id = uniqid()
-        const { userId, firstName, lastName, address, country, province, zip, patrimonialSituation, work, secteur, revenuMensuel } = payload
+        const { userId, firstName, lastName, address, country, province, zip, children, patrimonialSituation, work, secteur, revenuMensuel, montant, accepted } = payload
+        const datetime = new Date().toLocaleString()
+        
         const row = await database.query(
             `INSERT INTO LOAN
-                (CODE_LOAN, CODE_USER, PRENOM, NOM, ADRESSE, EMAIL, VILLE, PROVINCE, ZIP, SITUATION_PATRIMONIALE, PROFESSION, SECTEUR, REVENU_MENSUEL)
+                (CODE_LOAN, CODE_USER, PRENOM, NOM, ADRESSE, VILLE, PROVINCE, ZIP, NOMBRE_ENFANT, SITUATION_PATRIMONIALE, PROFESSION, SECTEUR, REVENU_MENSUEL, MONTANT, DATE_CREATION, APPROUVE)
                 VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-                [id, userId, firstName, lastName, address, country, province, zip, patrimonialSituation, work, secteur, revenuMensuel]
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                [id, userId, firstName, lastName, address, country, province, zip, children, patrimonialSituation, work, secteur, revenuMensuel, montant, datetime.toString(), accepted]
         )
         const data = helper.emptyOrRows(row)
         const message = "loan added successfully !"
+        return { data, message }
+    }
+
+    async update(id, payload) {
+        const codeLoan = id
+        const { approuve } = payload
+
+        const row = await database.query(
+            `UPDATE LOAN SET APPROUVE = ? true WHERE CODE_LOAN = ?`
+        , [approuve, codeLoan])
+
+        const data = helper.emptyOrRows(row)
+        const message = "loan updated successfully !"
         return { data, message }
     }
 

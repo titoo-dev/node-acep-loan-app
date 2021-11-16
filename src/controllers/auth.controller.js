@@ -9,7 +9,7 @@ class AuthRouterController {
     async auth(req, res, next) {
         const payload = req.body
         try {
-            res.json(await authService.auth(payload))
+            res.status(201).json(await authService.auth(payload))
         } catch (error) {
             console.error(`Error while authenticating user`, error.message);
             next(error)   

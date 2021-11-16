@@ -21,7 +21,7 @@ class LoanRouterController {
     async getById(req, res, next) {
         const id = req.params.id
         try {
-            res.json(await loanService.getAllByUserId(id, req.query.page))
+            res.status(200).json(await loanService.getById(id, req.query.page))
         } catch (error) {
             console.error(`Error while getting loan`, error.message);
             next(error)   
@@ -31,7 +31,7 @@ class LoanRouterController {
     async getOnce (req, res, next) {
         const id = req.params.id
         try {
-            res.json(await loanService.getOnce(id))
+            res.status(200).json(await loanService.getOnce(id))
         } catch (error) {
             console.error(`Error while getting loan`, error.message);
             next(error)   
@@ -41,10 +41,21 @@ class LoanRouterController {
     async add (req, res, next) {
         const playload = req.body
         try {
-            res.json(await loanService.add(playload))    
+            res.status(201).json(await loanService.add(playload))    
         } catch (error) {
             console.error(`Error while adding loan`, error.message);
             next(error)  
+        }
+    }
+
+    async update(req, res, next) {
+        const id = req.params.id
+        const payload = req.body
+        try {
+            res.status(201).json(await loanService.update(id, payload))
+        } catch (error) {
+            console.error(`Error while updating loan`, error.message)
+            next(error)
         }
     }
 }

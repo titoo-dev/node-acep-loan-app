@@ -31,7 +31,7 @@ class UserRouterController {
     async add (req, res, next) {
         const playload = req.body
         try {
-            res.json(await userService.add(playload))    
+            res.status(201).json(await userService.add(playload))    
         } catch (error) {
             console.error(`Error while adding user`, error.message);
             next(error)  

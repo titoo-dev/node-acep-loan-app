@@ -10,7 +10,7 @@ class AuthService {
         const { email, password } = payload
         let message = "" 
         let isAuth
-        console.log(`Authentication success: User { email: ${email}, password: ${password} }`)
+        // console.log(`Authentication success: User { email: ${email}, password: ${password} }`)
         const row = await database.query(`
             SELECT * FROM user WHERE EMAIL=?
         `, [email])

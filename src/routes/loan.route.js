@@ -5,7 +5,8 @@ const loanRouter = express.Router()
 
 loanRouter.get('/', loanController.getAll)
 loanRouter.get('/:id', loanController.getOnce)
-loanRouter.get('/loan/:id', loanController.getById)
+loanRouter.get('/user/:id', loanController.getById)
 loanRouter.post('/', loanController.add)
+loanRouter.put('/:id', loanController.update)
 
 export default loanRouter
